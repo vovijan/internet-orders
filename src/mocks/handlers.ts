@@ -1,4 +1,5 @@
 import { rest } from 'msw'
+import {db} from "./db";
 
 export const handlers = [
   /**
@@ -6,12 +7,25 @@ export const handlers = [
    * and declares which mocked response to return upon match.
    * @see https://mswjs.io/docs/basics/request-handler
    */
-  rest.get('https://made.up/api/usage', (req, res, ctx) => {
+  rest.get('/orders', (req, res, ctx) => {
+    let orders: any[] = [];
+
+    for (let i = 0; i < 5; i++) {
+      orders.push(db.orders.create());
+    }
+
+    orders.forEach((item: any) => {
+      for (let i = 0; i < 5; i++) {
+        item.products.push(db.product.create());
+      }
+
+      return item;
+    })
+
     return res(
-      ctx.status(301),
+      ctx.delay(500),
       ctx.json({
-        id: 1,
-        firstName: 'John',
+        ...orders,
       }),
     )
   }),

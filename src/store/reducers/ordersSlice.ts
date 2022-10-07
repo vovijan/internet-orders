@@ -1,19 +1,15 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {IOrder} from "../../mocks/models/Orders.model";
 
-type Order = {
-  id: string,
-  firstName: string,
-}
-
-const initialState: Order[] = []
+const initialState: IOrder[] = []
 
 const ordersSlice = createSlice({
   name: 'orders',
   initialState,
   reducers: {
-    getOrdersSuccess: (state, {payload}: PayloadAction<Order[]>) => payload,
+    setOrdersSuccess: (state, {payload}: PayloadAction<IOrder[]>) => payload,
   }
 })
 
-export const {getOrdersSuccess} = ordersSlice.actions;
+export const {setOrdersSuccess} = ordersSlice.actions;
 export default ordersSlice.reducer;
